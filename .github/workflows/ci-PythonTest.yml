@@ -6,8 +6,7 @@ name: ci-PythonTest
     paths:
       - '**/PythonTest/**'
 env:
-  DOCKER_BUILD_FILE_PATH: ./PythonTest/Dockerfile.build
-  DOCKER_FILE_PATH: ./PythonTest/Dockerfile.publish
+  DOCKER_FILE_PATH: ./PythonTest/Dockerfile
   DOCKER_BUILD_CONTEXT: PythonTest
   DOCKER_PUBLISH_CONTEXT: PythonTest
   CONTAINER_NAME: python-pipeline-test
@@ -24,15 +23,6 @@ jobs:
           login-server: ${{ secrets.CR_LOGIN_SERVER }}
           username: ${{ secrets.CR_USERNAME }}
           password: ${{ secrets.CR_PASSWORD }}
-      - name: Build and Test
-        run: docker build ${{ env.DOCKER_BUILD_CONTEXT }} -f ${{ env.DOCKER_BUILD_FILE_PATH }} -t ${{ secrets.CR_LOGIN_SERVER }}/${{ env.REPOSITORY_NAME }}:${{ github.run_number }}
-      - name: Runs docker
-        run: docker run --name ${{ env.CONTAINER_NAME }} -d ${{ secrets.CR_LOGIN_SERVER }}/${{ env.REPOSITORY_NAME }}:${{ github.run_number }}
-      - name: copy build files
-        run: |-
-          docker cp ${{ env.CONTAINER_NAME }}:/app/BuildTest/ ./${{ env.DOCKER_PUBLISH_CONTEXT }}
-          docker stop ${{ env.CONTAINER_NAME }}
-          docker rm ${{ env.CONTAINER_NAME }}
       - name: Build and  push image to container registry
         run: |-
           docker build ${{ env.DOCKER_PUBLISH_CONTEXT }} -f ${{ env.DOCKER_FILE_PATH }} -t ${{ secrets.CR_LOGIN_SERVER }}/${{ env.REPOSITORY_NAME }}:${{ github.run_number }}
