@@ -1,6 +1,6 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
 # use slim version for lower image size
-FROM python:3.8-alpine3.16
+FROM python:3.8-slim
 
 # Keeps Python from generating .pyc files in the container
 # ENV PYTHONDONTWRITEBYTECODE=1
