@@ -14,7 +14,7 @@ WORKDIR /app
 # Install & use pipenv
 COPY Pipfile Pipfile.lock /app/
 RUN apt-get update
-RUN apt-get install default-libmysqlclient-dev
+RUN apt-get install default-libmysqlclient-dev -f
 RUN pip install --upgrade setuptools
 RUN python -m pip install --upgrade pip
 RUN pip install pipenv && pipenv install --system --deploy
