@@ -17,6 +17,7 @@ RUN apt-get update
 RUN apt-get install -y default-libmysqlclient-dev
 RUN pip install --upgrade setuptools
 RUN python -m pip install --upgrade pip
+RUN pip install wheel
 RUN pip install pipenv && pipenv install --system --deploy
 COPY . /app 
 EXPOSE 3000
