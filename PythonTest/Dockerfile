@@ -13,11 +13,11 @@ WORKDIR /app
 
 # Install & use pipenv
 COPY Pipfile Pipfile.lock /app/
-RUN python -m pip install --upgrade pip
-RUN pip install pipenv && pipenv install --system --deploy
 RUN apt-get update
 RUN apt-get install libmysqlclient-dev
-# RUN pip install --upgrade setuptools
+RUN pip install --upgrade setuptools
+RUN python -m pip install --upgrade pip
+RUN pip install pipenv && pipenv install --system --deploy
 COPY . /app 
 EXPOSE 3000
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3000"]
