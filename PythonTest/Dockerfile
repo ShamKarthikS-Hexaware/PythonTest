@@ -15,6 +15,10 @@ WORKDIR /app
 COPY Pipfile Pipfile.lock /app/
 RUN apt-get update
 RUN apt-get install -y default-libmysqlclient-dev
+RUN apt-get update -q \
+  && apt-get install --no-install-recommends -qy python3-dev g++ gcc inetutils-ping \
+  && apt-get remove -qy python3-dev g++ gcc --purge \
+  && rm -rf /var/lib/apt/lists/* 
 RUN pip install --upgrade setuptools
 RUN python -m pip install --upgrade pip
 RUN pip install wheel
